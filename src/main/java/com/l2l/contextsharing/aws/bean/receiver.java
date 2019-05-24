@@ -100,16 +100,16 @@ public class receiver {
         stringToSign += msg.getType() + "\n";
         return stringToSign;
     }
-    public static void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SecurityException {
+    public static String doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SecurityException {
         String messagetype = request.getHeader("x-amz-sns-message-type");
 
 
 
         //Get the message type header.
 //        String messagetype = request.getHeader("x-amz-sns-message-type");
-        //If message doesn't have the message type header, don't process it.
+        //If message doesn'iftttutil have the message type header, don'iftttutil process it.
         if (messagetype == null) {
-            return;
+            return null;
         }
 
         int totalBytes = request.getContentLength();
@@ -176,5 +176,6 @@ public class receiver {
             log.info(">>Unknown message type.");
         }
         log.info(">>Done processing message: " + msg.getMessageId());
+        return msg.getMessage();
     }
 }

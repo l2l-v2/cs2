@@ -51,13 +51,13 @@ dependencyManagement {
 
 defaultTasks 'bootRun'
 
-group = 'com.l2l.contextsharing'
+group = 'com.l2l.coordinator.vmc'
 version = '0.0.1-SNAPSHOT'
 
 description = ''
 
 bootWar {
-   mainClassName = 'com.l2l.contextsharingApp'
+   mainClassName = 'com.l2l.contextsharing.VesselManagerCoordinatorApp'
 }
 
 war {
@@ -65,7 +65,7 @@ war {
 }
 
 springBoot {
-    mainClassName = 'com.l2l.contextsharingApp'
+    mainClassName = 'com.l2l.contextsharing.VesselManagerCoordinatorApp'
     buildInfo()
 }
 
@@ -176,6 +176,9 @@ repositories {
 }
 
 dependencies {
+
+    compile group: 'org.apache.commons', name: 'commons-jexl3', version: '3.0'
+
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'2.1.4.RELEASE'
     compile group: 'com.amazonaws', name: 'aws-java-sdk', version:'1.11.536'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version:'2.9.5'
@@ -326,6 +329,6 @@ task createPom << {
 task stage(dependsOn: 'bootWar') {
 }
 
-compileJava.dependsOn processResources
+//compileJava.dependsOn processResources
 processResources.dependsOn cleanResources,bootBuildInfo
 bootBuildInfo.mustRunAfter cleanResources

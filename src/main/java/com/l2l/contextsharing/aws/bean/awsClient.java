@@ -30,15 +30,15 @@ public class awsClient {
     }
 
     public void publish(String topicArn, String msg){
-        msg = "If you receive this message, publishing a message to an Amazon SNS topic works.";
-        PublishRequest publishRequest = new PublishRequest("arn:aws-cn:sns:cn-northwest-1:148543509440:context", msg);
+        PublishRequest publishRequest = new PublishRequest(topicArn, msg);
+//MessageAttributes 用于筛选
         PublishResult publishResponse = this.snsClient.publish(publishRequest);
 
 // Print the MessageId of the message.
         System.out.println("MessageId: " + publishResponse.getMessageId());
     }
     public void subscribe(String topicArn, String protocol, String endpoint){
-        final SubscribeRequest subscribeRequest = new SubscribeRequest("arn:aws-cn:sns:cn-northwest-1:148543509440:context", "http", "http://127.0.0.1:8080/receive");
+        final SubscribeRequest subscribeRequest = new SubscribeRequest("arn:aws-cn:sns:cn-northwest-1:148543509440:context", "http", "http://127.0.0.1:8080/Receive");
         this.snsClient.subscribe(subscribeRequest);
 
 // Print the request ID for the SubscribeRequest action.

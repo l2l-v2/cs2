@@ -12,12 +12,13 @@ import com.l2l.contextsharing.aws.bean.*;
 @RestController//处理http请求，返回json格式
 @RequestMapping//配置url，让该类下的所有接口url都映射在/users下
 public class subscribe {
-    awsClient Client= new awsClient();
+    @Autowired
+    public awsClient client;
     @RequestMapping(value = "/subscribe",method = RequestMethod.GET)
     public String subscribe(){
         // Subscribe an email endpoint to an Amazon SNS topic.
 
-        Client.subscribe("s","s","s");
+        client.subscribe("s","s","s");
         return "subscribe";
     }
 }

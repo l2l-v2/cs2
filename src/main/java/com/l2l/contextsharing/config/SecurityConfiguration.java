@@ -2,8 +2,6 @@ package com.l2l.contextsharing.config;
 
 import com.l2l.contextsharing.security.jwt.JWTConfigurer;
 import com.l2l.contextsharing.security.jwt.TokenProvider;
-import com.l2l.coordinator.vmc.security.*;
-import com.l2l.coordinator.vmc.security.jwt.*;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;

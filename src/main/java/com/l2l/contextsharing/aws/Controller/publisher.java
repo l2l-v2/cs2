@@ -15,11 +15,13 @@ import com.l2l.contextsharing.aws.bean.*;
 @RequestMapping(value = "/publisher")//配置url，让该类下的所有接口url都映射在/users下
 
 public class publisher {
-    awsClient Client= new awsClient();
+    @Autowired
+    public awsClient client;
+
 
     @RequestMapping(value = "/publish", method = RequestMethod.GET)
     public String say() {
-        Client.publish("s","s");
+        client.publish("s","s");
 
         return "publish";
     }

@@ -38,7 +38,7 @@ public class awsClient {
         System.out.println("MessageId: " + publishResponse.getMessageId());
     }
     public void subscribe(String topicArn, String protocol, String endpoint){
-        final SubscribeRequest subscribeRequest = new SubscribeRequest("arn:aws-cn:sns:cn-northwest-1:148543509440:context", "http", "http://127.0.0.1:8080/Receive");
+        final SubscribeRequest subscribeRequest = new SubscribeRequest(topicArn, protocol, endpoint);
         this.snsClient.subscribe(subscribeRequest);
 
 // Print the request ID for the SubscribeRequest action.

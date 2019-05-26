@@ -1,5 +1,7 @@
 package com.l2l.contextsharing.connectors.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.l2l.contextsharing.aws.bean.AnnotationIntegrationRequestManager;
 import com.l2l.contextsharing.aws.bean.awsClient;
@@ -36,7 +38,7 @@ public class AnnotationReceiverHandler {
     }
 
     @StreamListener(value = AnnotationMessageChannels.ANNOTAION_CONSUMER)
-    public void rewardTopRankedUsers(AnnotationIntegrationRequestImpl event) {
+    public void rewardTopRankedUsers(AnnotationIntegrationRequestImpl event) throws JsonProcessingException {
         // business logic goes here
         AnnotationIntegrationRequestImpl tv = null;
         if(event instanceof AnnotationIntegrationRequestImpl) {
@@ -47,7 +49,11 @@ public class AnnotationReceiverHandler {
         Annotation annotation = event.getAnnotationIntergrationContext().getAnnotation();
         String annkey = annotation.getId();
         annotationIntegrationRequestManager.getAnnotationIntegrationRequestMap().put(annkey,event);
-        client.publish("arn:aws-cn:sns:cn-northwest-1:148543509440:context-sharing-output-channel", annotation.toString());
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String outJson = mapper.writeValueAsString(annotation);
+        System.out.println(outJson);
+        client.publish("arn:aws-cn:sns:cn-northwest-1:148543509440:test", outJson);
 
         //  build and send result back 这部分转移到 recevie http中
 //        Map<String, Object> results = new HashMap<>();

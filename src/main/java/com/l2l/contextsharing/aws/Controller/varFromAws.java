@@ -1,7 +1,10 @@
 package com.l2l.contextsharing.aws.Controller;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.l2l.contextsharing.aws.bean.awsClient;
 import com.l2l.contextsharing.aws.bean.receiver;
+import com.l2l.contextsharing.aws.util.Message;
 import com.l2l.contextsharing.connectors.model.Annotation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,9 +33,12 @@ public class varFromAws {
     @RequestMapping(value = "/varFromAws", method = RequestMethod.POST)
     @ResponseBody
     public void getVar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SecurityException {//接受来自aws的额外流程变量
-        String message = re.doPost(request,response);//需要控制台筛选策略
-        Annotation annotation = readAnnotationFromJson(message);
-        if(annotation.getAwsVariables() != null) {
+        Message message = re.doPost(request,response);//需要控制台筛选策略
+        if(message.getType().equals("SubscriptionConfirmation") || !message.getSubject().isEmpty()|| !message.getSubject().equals("vars")){
+            return;
+        }
+        Annotation annotation = readAnnotationFromJson(message.getMessage());
+        if(annotation == null) {
          return;
         }
         //ifttt处理逻辑
@@ -55,14 +61,14 @@ public class varFromAws {
                 if(rule.substring(i,i+2).equals("if")){
                     i = i+3;
                     h = i;
-                    while(rule.charAt(i) == ','){i++;}
+                    while(rule.charAt(i) != ','){i++;}
                     e = i;
                     expression = rule.substring(h,e);
                 }
                 if(rule.substring(i,i+4).equals("then")){
                     i = i+5;
                     h = i;
-                    while (rule.charAt(i) == '}'){i++;}
+                    while (rule.charAt(i) != '}'){i++;}
                     e = i;
                     topic = rule.substring(h,e);
                 }
@@ -71,7 +77,11 @@ public class varFromAws {
             if((boolean)code){
                 annotation.setTopic(topic);
                 log.info("publish aws for topic");
-                client.publish("arn:aws-cn:sns:cn-northwest-1:148543509440:context-sharing-output-channel",annotation.toString());
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+                String outJson = mapper.writeValueAsString(annotation);
+                System.out.println(outJson);
+                client.publish("arn:aws-cn:sns:cn-northwest-1:148543509440:test2",outJson);
                 annotation.setTopic(null);
             }
         }

@@ -100,7 +100,7 @@ public class receiver {
         stringToSign += msg.getType() + "\n";
         return stringToSign;
     }
-    public static String doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SecurityException {
+    public static Message doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SecurityException {
         String messagetype = request.getHeader("x-amz-sns-message-type");
 
 
@@ -176,6 +176,6 @@ public class receiver {
             log.info(">>Unknown message type.");
         }
         log.info(">>Done processing message: " + msg.getMessageId());
-        return msg.getMessage();
+        return msg;
     }
 }

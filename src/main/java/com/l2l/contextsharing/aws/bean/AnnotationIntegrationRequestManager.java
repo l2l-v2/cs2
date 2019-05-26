@@ -9,8 +9,8 @@ import java.util.*;
 public class AnnotationIntegrationRequestManager {
     private Map<String,AnnotationIntegrationRequestImpl> annotationIntegrationRequestMap = new HashMap<>();
 
-    public AnnotationIntegrationRequestManager(HashMap<String, AnnotationIntegrationRequestImpl> annotationIntegrationRequestMap) {
-        this.annotationIntegrationRequestMap = annotationIntegrationRequestMap;
+    public AnnotationIntegrationRequestManager() {
+
     }
 
     public Map<String, AnnotationIntegrationRequestImpl> getAnnotationIntegrationRequestMap() {

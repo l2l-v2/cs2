@@ -19,6 +19,6 @@ public class IntegrationResultSenderImpl implements IntegrationResultSender {
     @Override
     public void send(Message<AnnotationIntegrationResultImpl> message) {
         String destination = this.resultDestinationOverride != null && !this.resultDestinationOverride.isEmpty() ? this.resultDestinationOverride : "integrationResult:" + ((AnnotationIntegrationResultImpl)message.getPayload()).getIntegrationRequest().getServiceFullName();
-        this.resolver.resolveDestination(destination).send(message);
+        this.resolver.resolveDestination("AnnotationIntegrationResultsConsumer").send(message);
     }
 }

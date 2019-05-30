@@ -35,15 +35,15 @@ public class Annotation {
     @JsonProperty(value = "iftttRules")
     public String iftttRules;
     @JsonProperty(value = "IOThub")
-    public String IOThub;
+    public String iothub;
     @JsonProperty(value = "Topic")
-    public String Topic;
+    public String topic;
     @JsonProperty(value = "executionvars")
     public Map<String,Object> executionvars = new HashMap<>();
 
     @Override
     public String toString() {
-        return '{' +
+        return "Annotation{" +
             "id='" + id + '\'' +
             ", name='" + name + '\'' +
             ", pointcutType='" + pointcutType + '\'' +
@@ -54,32 +54,15 @@ public class Annotation {
             ", processDefinitionId='" + processDefinitionId + '\'' +
             ", targetElementId='" + targetElementId + '\'' +
             ", policy='" + policy + '\'' +
-            ", awsVariables=" + awsVariablestoString() +
-            ", processVariables=" + processVariablestoString() +
+            ", awsVariables=" + awsVariables +
+            ", processVariables=" + processVariables +
             ", iftttRules='" + iftttRules + '\'' +
-            ", IOThub='" + IOThub + '\'' +
-            ", Topic='" + Topic + '\'' +
+            ", IOThub='" + iothub + '\'' +
+            ", Topic='" + topic + '\'' +
+            ", executionvars=" + executionvars +
             '}';
     }
-    public String toJson(){
-        return '{' +
-            "\"id\""+ ":\"" + id + '\"' +
-            ", \"name\"" + ":\"" + name + '\"' +
-            ", \"pointcutType\"" + ":\"" + pointcutType + '\"' +
-            ", \"implementationType\"" + ":\"" + implementationType + '\"' +
-            ", \"destination\"" + ":\"" + destination + '\"' +
-            ", \"handler\"" + ":\"" + handler + '\"' +
-            ", \"script\"" + ":\"" + script + '\"' +
-            ", \"processDefinitionId\"" + ":\"" + processDefinitionId + '\"' +
-            ", \"targetElementId\"" + ":\"" + targetElementId + '\"' +
-            ", \"policy\"" + ":\"" + policy + '\"' +
-            ", \"awsVariables\"" + ":\"" + awsVariablestoString() + '\"' +
-            ", \"processVariables\"" + ":\"" + processVariablestoString() + '\"' +
-            ", \"iftttRules\"" + ":\"" + iftttRules + '\"' +
-            ", \"IOThub\"" + ":\"" + IOThub + '\"' +
-            ", \"Topic\"" + ":\"" + Topic + '\"' +
-            '}';
-    }
+
 
     public Annotation(){
 
@@ -93,13 +76,7 @@ public class Annotation {
         this.executionvars = executionvars;
     }
 
-    public String getTopic() {
-        return Topic;
-    }
 
-    public void setTopic(String topic) {
-        Topic = topic;
-    }
 
     public String awsVariablestoString(){
         if(!this.getAwsVariables().isEmpty()){
@@ -125,12 +102,20 @@ public class Annotation {
         }return null;
     }
 
-    public String getIOThub() {
-        return IOThub;
+    public String getIothub() {
+        return iothub;
     }
 
-    public void setIOThub(String IOThub) {
-        this.IOThub = IOThub;
+    public void setIothub(String iothub) {
+        this.iothub = iothub;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
     public String getIftttRules() {

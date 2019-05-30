@@ -34,7 +34,8 @@ public class varFromAws {
     @ResponseBody
     public void getVar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SecurityException {//接受来自aws的额外流程变量
         Message message = re.doPost(request,response);//需要控制台筛选策略
-        if(message.getType().equals("SubscriptionConfirmation") || !message.getSubject().isEmpty()|| !message.getSubject().equals("vars")){
+        if(message.getType().equals("SubscriptionConfirmation")){
+//            || !message.getSubject().isEmpty()|| !message.getSubject().equals("vars")){
             return;
         }
         Annotation annotation = readAnnotationFromJson(message.getMessage());
@@ -81,7 +82,7 @@ public class varFromAws {
                 mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
                 String outJson = mapper.writeValueAsString(annotation);
                 System.out.println(outJson);
-                client.publish("arn:aws-cn:sns:cn-northwest-1:148543509440:test2",outJson);
+                client.publish("arn:aws-cn:sns:cn-northwest-1:148543509440:test3",outJson);
                 annotation.setTopic(null);
             }
         }

@@ -44,21 +44,27 @@ public class Receive {
     public void receive(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SecurityException {
 
         com.l2l.contextsharing.aws.util.Message message = re.doPost(request,response);
-        if(message.getType().equals("SubscriptionConfirmation") || !message.getSubject().isEmpty() || !message.getSubject().equals("annotation")){
+        if(message.getType().equals("SubscriptionConfirmation") ){
+//            || !message.getSubject().isEmpty() || !message.getSubject().equals("annotation")){
             return;
         }
         //这里需要 message 去除换行 所有字符到同一行 方便json转化
         Annotation annotation = readAnnotationFromJson(message.getMessage());
+        if(annotation == null){
+            return;
+        }
         Map<String, Object> results = new HashMap<>();
         //读取msatrbuit 包装成event intergration 创建event
         results.put("rewards", "test");//也许可以去除
         if(annotationIntegrationRequestManager.getAnnotationIntegrationRequestMap().containsKey(annotation.getId())){
             AnnotationIntegrationRequestImpl event = annotationIntegrationRequestManager.getAnnotationIntegrationRequestMap().get(annotation.getId());
+            event.getAnnotationIntergrationContext().setAnnotation(annotation);
             Message<AnnotationIntegrationResultImpl> msg = AnnotationIntegrationResultBuilder.resultFor(event,
                 connectorProperties)
                 .withOutboundVariables(results)
                 .buildMessage();
             integrationResultSender.send(msg);
+            annotationIntegrationRequestManager.getAnnotationIntegrationRequestMap().remove(annotation.getId());
 //            annotationIntegrationRequestManager.getAnnotationIntegrationRequestMap().remove(annotation.getId());
         }else{
             log.info("no matched annotationRequest");

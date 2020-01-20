@@ -40,6 +40,13 @@ public class Annotation {
     public String topic;
     @JsonProperty(value = "executionvars")
     public Map<String,Object> executionvars = new HashMap<>();
+    @JsonProperty()
+    public String valueExchange;
+    @JsonProperty()
+    public String type;
+    @JsonProperty()
+    public String constraints;
+
 
     @Override
     public String toString() {
@@ -57,9 +64,12 @@ public class Annotation {
             ", awsVariables=" + awsVariables +
             ", processVariables=" + processVariables +
             ", iftttRules='" + iftttRules + '\'' +
-            ", IOThub='" + iothub + '\'' +
-            ", Topic='" + topic + '\'' +
+            ", iothub='" + iothub + '\'' +
+            ", topic='" + topic + '\'' +
             ", executionvars=" + executionvars +
+            ", valueExchange='" + valueExchange + '\'' +
+            ", type='" + type + '\'' +
+            ", constraints='" + constraints + '\'' +
             '}';
     }
 
@@ -224,5 +234,29 @@ public class Annotation {
 
     public void setProcessDefinitionId(String processDefinitionId) {
         this.processDefinitionId = processDefinitionId;
+    }
+
+    public String getValueExchange() {
+        return valueExchange;
+    }
+
+    public void setValueExchange(String valueExchange) {
+        this.valueExchange = valueExchange;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getConstraints() {
+        return constraints;
+    }
+
+    public void setConstraints(String constraints) {
+        this.constraints = constraints;
     }
 }
